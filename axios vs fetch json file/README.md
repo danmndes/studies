@@ -1,2 +1,2 @@
 # studies
-Exercise fetching data from a json file, making a conparsion 
+Exercise fetching data from a json file, making a comparison 
