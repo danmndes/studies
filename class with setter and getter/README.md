@@ -1,2 +1,2 @@
 # studies
-Exercise to practice try and catch errors
+Exercise to practice setters and getters with classes
