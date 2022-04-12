@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Accessing Files</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+
+  <section class="container">
+    <h1>Accessing Files with fs and path</h1>
+    <p>Example of code to access files from the system using the FileSystem module and Path</p>
+    <br/>
+    <pre class="pre-scrollable">
+    <code>
+      const fs = require('fs/promises');
+        const path = require('path');
+        
+        async function readdir(rootDir) {
+          rootDir = rootDir || path.resolve(__dirname);
+          const files = await fs.readdir(rootDir);
+          walk(files, rootDir);
+        }
+        
+        async function walk(files, rootDir) {
+        
+          for (let file of files) {
+            const fileFullPath = path.resolve(rootDir, file)
+            const stats = await fs.stat(fileFullPath)
+            if (/\.git/g.test(fileFullPath)) continue; // regular expression to ignore git folder
+            if (/node/g.test(fileFullPath)) continue; // regular expression to ignore node_modules folder
+            if (stats.isDirectory()) {
+              readdir(fileFullPath);
+              continue;
+            }
+            if (!/\.css$/g.test(fileFullPath)) continue; // as example, listing only css files
+            console.log(fileFullPath, stats.isDirectory());
+          }
+        
+        }
+        
+        readdir('../');
+        
+    </code>
+  </pre>
+  </section>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
